@@ -1,3 +1,5 @@
+import { TextInput, TextInputProps } from "react-native"
+
 export type CustomButtonType = {
   label: string, 
   containerStyles?: string,
@@ -5,3 +7,11 @@ export type CustomButtonType = {
   textStyles?: string, 
   isLoading?: boolean 
 }
+
+export type FormFieldType = {
+  title?: string, 
+  value?: string, 
+  placeholder?: string, 
+  handleChangeText?: any, 
+  otherStyles?: string,
+} & React.ComponentPropsWithoutRef<typeof TextInput>;
