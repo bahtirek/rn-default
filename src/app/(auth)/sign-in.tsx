@@ -1,10 +1,11 @@
-import { View, Image, ScrollView, Text } from 'react-native'
+import { View, Image, ScrollView, Text, Alert } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import images from '@constants/images'
 import FormField from '@components/common/FormField'
 import { useState } from 'react'
 import CustomButton from '@components/common/CustomButton'
-import { Href, Link } from 'expo-router'
+import { Href, Link, router } from 'expo-router'
+import { signIn } from 'lib/appwrite'
 
 const SigIn = () => {
   const signUp = "/sign-up" as Href;
@@ -14,7 +15,22 @@ const SigIn = () => {
   });
   const [isSubmitting, setSubmitting] = useState(false);
 
-  const submit = async () => {};
+  const submit = async () => {
+    if(!form.email || !form.password) {
+      Alert.alert('Error', 'Please fill in all the fields!');
+      return;
+    }
+    setSubmitting(true);
+
+    try {
+      const result = await signIn(form.email, form.password);
+      router.replace('/home');
+    } catch (error: any) {
+      Alert.alert('Error', error.message)
+    } finally {
+      setSubmitting(false)
+    }
+  };
 
   return (
     <SafeAreaView className='bg-primary h-full'>

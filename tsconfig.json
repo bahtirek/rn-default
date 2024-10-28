@@ -9,6 +9,8 @@
       "@hooks/*": ["hooks/*"],
       "@components/*": ["src/components/*"],
       "@constants/*": ["constants/*"],
+      "@context/*": ["context/*"],
+      "@libs/*": ["libs/*"]
     }
   },
   "include": [
