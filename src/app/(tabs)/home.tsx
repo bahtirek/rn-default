@@ -6,6 +6,7 @@ import SearchInput from '@components/SearchInput'
 import Trending from '@components/Trending'
 import EmptyState from '@components/common/EmptyState'
 import { getAllPosts } from 'lib/appwrite'
+import useAppwrite from 'lib/useAppwrite'
 
 const Home = () => {
   type TopicsType = {
@@ -19,28 +20,14 @@ const Home = () => {
   };
   const topics: TopicsType[] = [{id: '1'}, {id: '2'}, {id: '3'}];
   const [refreshing, setRefreshing] = useState(false);
-  const [data, setData] = useState<any>([]);
-  const [isLoading, setisLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchData = async() => {
-      try {
-        setisLoading(true);
-        const response = await getAllPosts();
-        setData(response)
-      } catch (error: any) {
-        Alert.alert('Error', error.message)
-      } finally {
-        setisLoading(false)
-      }
-    }
-    fetchData();
-  }, [])
-
-  console.log('posts', data)
+  const {data: posts, refetch} = useAppwrite(getAllPosts);
+  console.log(posts);
+  
 
   const onRefresh = async() => {
     setRefreshing(true);
+    await refetch();
     setRefreshing(false)
   }
   return (
