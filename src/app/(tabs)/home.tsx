@@ -7,24 +7,16 @@ import Trending from '@components/Trending'
 import EmptyState from '@components/common/EmptyState'
 import { getAllPosts } from 'lib/appwrite'
 import useAppwrite from 'lib/useAppwrite'
+import VideoCard from '@components/VideoCard'
+import { VideoCardType } from 'src/types'
 
 const Home = () => {
-  type TopicsType = {
-    id: string
-  };
-  type PostType = {
-    title?: string,
-    thumbnail?: string,
-    promt?: string,
-    video?: string
-  };
-  const topics: TopicsType[] = [{id: '1'}, {id: '2'}, {id: '3'}];
+
   const [refreshing, setRefreshing] = useState(false);
 
-  const {data: posts, refetch} = useAppwrite(getAllPosts);
+  const {data: posts, refetch} = useAppwrite<VideoCardType[]>(getAllPosts);
   console.log(posts);
   
-
   const onRefresh = async() => {
     setRefreshing(true);
     await refetch();
@@ -33,10 +25,10 @@ const Home = () => {
   return (
     <SafeAreaView className='bg-primary h-full'>
       <FlatList 
-        data={topics}
-        keyExtractor={(item) => item.id}
+        data={posts}
+        keyExtractor={(item) => item.$id}
         renderItem={({item}) => (
-          <Text className='text-3xl text-white'>{item.id}</Text>
+          <VideoCard videoCard={item} />
         )}
         ListHeaderComponent={() => (
           <View className='my-6 px-4 space-y-6'>

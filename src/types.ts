@@ -15,3 +15,16 @@ export type FormFieldType = {
   handleChangeText?: any, 
   otherStyles?: string,
 } & React.ComponentPropsWithoutRef<typeof TextInput>;
+
+export type VideoCardType = {
+  title?: string,
+  thumbnail?: string,
+  promt?: string,
+  video?: string,
+  creator: CreatorType
+};
+
+export type CreatorType = {
+  username: string,
+  avatar: string
+}
