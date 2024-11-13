@@ -5,7 +5,7 @@ import images from '@constants/images'
 import SearchInput from '@components/SearchInput'
 import Trending from '@components/Trending'
 import EmptyState from '@components/common/EmptyState'
-import { getAllPosts } from 'lib/appwrite'
+import { getAllPosts, getLatestPosts } from 'lib/appwrite'
 import useAppwrite from 'lib/useAppwrite'
 import VideoCard from '@components/VideoCard'
 import { VideoCardType } from 'src/types'
@@ -15,6 +15,7 @@ const Home = () => {
   const [refreshing, setRefreshing] = useState(false);
 
   const {data: posts, refetch} = useAppwrite<VideoCardType[]>(getAllPosts);
+  const {data: latestPosts} = useAppwrite<VideoCardType[]>(getLatestPosts);
   console.log(posts);
   
   const onRefresh = async() => {
@@ -52,7 +53,7 @@ const Home = () => {
             <View className='w-full flex-1 pt-5 pb-8'>
               <Text className='text-gray-100 text-lg font-pregular mb-3'>Latest videos</Text>
 
-              <Trending posts={[{id: 1}, {id: 2}, {id: 3}]}/>
+              <Trending trendingVideos={latestPosts}/>
             </View>
           </View>
         )}

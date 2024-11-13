@@ -21,6 +21,7 @@ export type VideoCardType = {
   thumbnail?: string,
   promt?: string,
   video?: string,
+  $id: string,
   creator: CreatorType
 };
 
