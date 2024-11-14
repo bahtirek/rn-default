@@ -1,8 +1,9 @@
-import { View, Text, FlatList, TouchableOpacity, Image, ImageBackground } from 'react-native'
+import { View, Text, FlatList, TouchableOpacity, Image, ImageBackground, Button, StyleSheet } from 'react-native'
 import React, { useRef, useState } from 'react'
 import { VideoCardType } from 'src/types'
 import * as Animatable from "react-native-animatable"
 import icons from '@constants/icons'
+import { Video, ResizeMode, AVPlaybackStatus } from "expo-av"
 
 type VideoCardPropType = {
   trendingVideos: VideoCardType[]
@@ -32,7 +33,8 @@ const zoomOut = {
 }
 
 const TrendingItem = ({activeItem, item}: TrendingItemPropType) => {
-const [play, setPlay] = useState(false)
+const [play, setPlay] = useState(false);
+
   return (
     <Animatable.View
       className='mr-5'
@@ -41,7 +43,17 @@ const [play, setPlay] = useState(false)
       duration={500}
     >
       {play ? (
-        <Text className='text-white'>Playing</Text>
+        <Video 
+          source={{uri: item.video}}
+          className='w-52 h-72 rounded-[35px] mt-3 bg-white/10'
+          resizeMode={ResizeMode.CONTAIN}
+          useNativeControls
+          shouldPlay
+          onPlaybackStatusUpdate={(status: any) => {
+            console.log(status.didJustFinished);
+            
+          }}
+        />
       ) : (
         <TouchableOpacity
           activeOpacity={0.7}
@@ -97,5 +109,22 @@ const Trending = ({trendingVideos}: VideoCardPropType) => {
     />
   )
 }
+
+const styles = StyleSheet.create({
+  contentContainer: {
+    flex: 1,
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 50,
+  },
+  video: {
+    width: 350,
+    height: 275,
+  },
+  controlsContainer: {
+    padding: 10,
+  },
+});
 
 export default Trending

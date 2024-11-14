@@ -20,7 +20,7 @@ export type VideoCardType = {
   title?: string,
   thumbnail?: string,
   promt?: string,
-  video?: string,
+  video: string,
   $id: string,
   creator: CreatorType
 };
